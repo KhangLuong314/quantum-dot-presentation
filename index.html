@@ -12,12 +12,599 @@
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			#background-canvas {
+			  position: fixed;
+			  top: 0;
+			  left: 0;
+			  z-index: -1;
+			  width: 100vw;
+			  height: 100vh;
+			  background-color: black;
+			}
+			.reveal h1 {
+				font-size: 2.5em;
+				color: #00ffff;
+				text-shadow: 0 0 15px cyan;
+				margin-bottom: 0.5em;
+				}
+
+			.reveal h3, .reveal address, .reveal p {
+				font-style: italic;
+				color: white;
+				}
+			.custom-slide-right.visible {
+    		transform: translateX(200px); /* adjust how far it moves right */
+			}
+			.equation-slide {
+				opacity: 0;
+				transform: translateX(-100px);
+				animation: slideIn 1s forwards;
+				animation-delay: 0.5s;
+				}
+
+				@keyframes slideIn {
+				to {
+					opacity: 1;
+					transform: translateX(0);
+				}
+				}
+		</style>
+		<style type="text/css">
+			.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+		</style>
+		<style type="text/css">
+			.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+		</style>		  
 	</head>
 	<body>
+		<canvas id="background-canvas"></canvas>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Quantum Dots and Particle in a Box</h2>
+					<h3><em><small>Author: Khang Luong, Maeve Osborn</small></em></h3>
+					<small>
+						<em>
+						  University of Nebraska-Lincoln<br>
+						  PHYSICS 223-001<br>
+						  May \(8^{th}\), 2025
+						</em>
+					  </small>
+				</section>				  
+				<section id="Introduction" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<section data-auto-animate style="top: 312.5px; display: block;" class="past" hidden aria-hidden="True">
+						<h2>Introduction</h2>
+					</section>
+					<section>
+						<h2>Introduction</h2>
+						<p>Quantized Energy</p>
+						<div style="text-align: center;">
+							<img src="Figures/tb2008_0123_blinking_dots.gif" alt="Quantized Energy">
+							<p class="fragment fade-in">
+								Photoelectric effect <span>\(E = hf - \phi\)</span>
+							</p>
+						</div>
+					  </section>
+					<section>
+						<h2>Introduction</h2>
+						<img src="Figures/energy_level.png" alt="energy_level">
+					</section>
+					<section>
+						<h2>Introduction</h2>
+						<img src="Figures/output_dark.png" alt="application">
+					</section>																			  
+				</section>
+				<section id="theory" data-background-color="black" class="stack has-dark-background">
+  
+					<!-- Title slide for Theory -->
+					<section data-auto-animate>
+					  <h2>Theory</h2>
+					</section>
+				  
+					<!-- Quantum Dot Concept Slide -->
+					<section data-auto-animate>
+					  <h2>Theory</h2>
+					  <div style="
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						flex-wrap: wrap;
+						gap: 5rem;
+						margin-top: 2rem;
+					  ">
+						<!-- Quantum dot image -->
+						<div class="fragment fade-in-right" data-fragment-index="0" style="text-align: center;">
+						  <img src="Figures/QD_picture copy.png" alt="Quantum Dot Diagram"
+							   style="max-height: 300px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,255,255,0.4);">
+						</div>
+				  
+						<!-- Bullet points -->
+						<ul style="max-width: 400px; text-align: left;">
+						  <li class="fragment fade-in-left" data-fragment-index="1">Particles of semiconductor</li>
+						  <li class="fragment fade-in-left" data-fragment-index="2">Giant spherical molecule</li>
+						  <li class="fragment fade-in-left" data-fragment-index="3">Electronic properties depend on size</li>
+						</ul>
+					  </div>
+				  
+					  <!-- Glowing vials image -->
+					  <div class="fragment fade-in-up" data-fragment-index="4" style="text-align: center; margin-top: 2rem;">
+						<img src="Figures/glowing_vials.png" alt="Quantum Dot Vials"
+							 style="max-height: 200px; border-radius: 8px;">
+					  </div>
+					</section>
+				  
+					<!-- TISE + Well image slide -->
+					<section data-auto-animate>
+					  <h2>Theory</h2>
+					  <h4 class="fragment fade-in">Time-Independent Schrödinger Equation</h4>
+				  
+					  <img src="Figures/potential_well.png" alt="Potential Well"
+						   class="fragment fade-in" data-fragment-index="1"
+						   style="max-height: 250px; margin: 1rem 0;">
+				  
+					  <!-- Boxed equation -->
+					  <div class="fragment fade-in" data-fragment-index="2"
+						   style="border: 2px solid cyan; padding: 1rem; border-radius: 10px; background: rgba(255,255,255,0.05); max-width: 600px; margin: auto;">
+						<p style="text-align: center;">
+						  \( \hat{H} \psi(x) = E \psi(x) \)
+						</p>
+						<p style="text-align: center;">
+						  \( \frac{d^2 \psi(x)}{dx^2} = \frac{-2m}{\hbar^2} [E - V(x)] \psi(x) \)
+						</p>
+					  </div>
+					</section>
+				  
+					<!-- Derivation of energy and wavefunction -->
+					<section data-auto-animate>
+					  <h2>Theory</h2>
+				  
+					  <p class="fragment fade-in" data-fragment-index="0" style="font-size: medium;">
+						Since \( V(x) = 0 \quad \text{for} \quad 0 < x < a \)
+					  </p>
+				  
+					  <p class="fragment fade-in" data-fragment-index="1"  style="font-size: medium;">
+						Let \( k = \sqrt{ \frac{2m \left[ E - V(x) \right]}{\hbar^2} } \)
+					  </p>
+				  
+					  <div class="fragment fade-in" data-fragment-index="2"
+						   style="border: 2px solid lime; padding: 2rem; border-radius: 10px; background: rgba(255,255,255,0.05); max-width: 600px; margin: 1rem auto;">
+						<p style="text-align: center;" style="font-size: small;">
+						  \( \psi_n(x) = \sqrt{\frac{2}{a}} \sin\left( \frac{n\pi x}{a} \right)\)
+						<p>for n = 1,2,3,...</p>	  
+						</p>
+					  </div>
+				  
+					  <div class="fragment fade-in" data-fragment-index="3"
+						   style="border: 2px solid orange; padding: 1rem; border-radius: 10px; background: rgba(255,255,255,0.05); max-width: 600px; margin: 1rem auto; margin-bottom: -50px;">
+						<p style="text-align: center;"  style="font-size: small;">
+						  \( E_n = \frac{\hbar^2 \pi^2 n^2}{2 m a^2} \)
+						</p>
+						<p style="text-align: center;">
+						  If \( a = r_0 \Rightarrow E_n = \frac{\hbar^2 \pi^2 n^2}{2 m r_0^2} \)
+						</p>
+					  </div>
+					</section>
+
+					<!--Definition of Hole-->
+					<section data-auto-animate>
+						<h2>Theory</h2>
+						<img src="Figures/uv_excitation.gif" alt="Potential Well"
+						   class="fragment fade-in" data-fragment-index="0"
+						   style="max-height: 400px; margin: 1rem 0;">
+						<p class="fragment fade-in" data-fragment-index="1" style="text-align: center;">\(E_g\) is the difference in energy between \(E_e \; and \; E_h\)</p>
+						<p class="fragment fade-in" data-fragment-index="2" style="text-align: center;">\(E_{emission} = E_g + E_e + E_h\)</p>
+					</section>
+					<section data-auto-animate>
+						<h2>Theory</h2>
+						<p>\(E_{emission} = E_g + \frac{\hbar^2\pi^2n^2}{2a^2}(\frac{1}{m_e} + \frac{1}{m_h})\)</p>
+					</section>
+					<section data-auto-animate>
+						<h2>Theory</h2>
+						<div id="eq-emission" data-id="eq-box"
+							 style="border: 2px solid lime; padding: 2rem; border-radius: 10px; background: rgba(255,255,255,0.05); max-width: 600px; margin: auto;">
+						  <p style="text-align: center;">
+							\(E_{emission} = E_g + \frac{\hbar^2\pi^2}{2a^2} \left( \frac{1}{m_e} + \frac{1}{m_h} \right)\)
+						  </p>
+						</div>
+					  </section>
+					  
+				</section>
+				</section>
+				<section id="Experimental Setup" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<!-- Title slide for Theory -->
+					<section data-auto-animate>
+						<h2>Experimental Setup</h2>
+					</section>
+
+					<!--Key component and instrument-->
+					<section data-auto-animate>
+						<h2>Experimental Setup</h2>
+						<p class="fragment fade-in" data-fragment-index="1">Key Components and Instrument</p>
+					</section>
+					<section data-auto-animate>
+						<h2>Experimental Setup</h2>
+						<p class="fragment fade-in" data-fragment-index="1">
+						  <strong>Key Components and Instruments</strong>
+						</p>
+						<p class="fragment fade-in" data-fragment-index="2">
+						  Constants: \(m_e, m_h, E_g\)
+						</p>
+					  
+						<div style="
+						  display: grid;
+						  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+						  gap: 1.5rem;
+						  margin-top: 2rem;
+						  max-width: 900px;
+						  margin-left: auto;
+						  margin-right: auto;
+						  text-align: center;
+						">
+					  
+						  <div class="fragment fade-in" data-fragment-index="3"
+							   style="border: 1px solid #888; padding: 1rem; border-radius: 10px; background: rgba(255,255,255,0.05);">
+							<h4>Optics & Light</h4>
+							<ol style="padding: 0;">
+							  <li>Blue/UV Flashlight</li>
+							  <li>Flashlight Mount</li>
+							  <li>Diffraction Grating</li>
+							  <li>Collimating Slit</li>
+							</ol>
+						  </div>
+					  
+						  <div class="fragment fade-in" data-fragment-index="4"
+							   style="border: 1px solid #888; padding: 1rem; border-radius: 10px; background: rgba(255,255,255,0.05);">
+							<h4>Measurement & Mounting</h4>
+							<ol style="padding: 0;">
+							  <li>Rotary Motion Sensor</li>
+							  <li>High-Sensitivity Light Sensor</li>
+							  <li>Quantum Dot Set</li>
+							  <li>Pasco Spectroscopy Mount</li>
+							  <li>Optical Mounting Track</li>
+							</ol>
+						  </div>
+
+						</div>
+						<figcaption style="margin-top: 0.2rem; font-size: 0.9rem; color: #ccc;">Table 1. Quantum Dots Experimental Equipments</figcaption>
+					  </section>
+					  <section data-auto-animate>
+						<h2>Experimental Setup</h2>
+						<figure style="text-align: center;">
+							<img src="Figures/Experimental Setup.png" alt="Experimental Setup Sketch" style="max-height: 400px;">
+							<figcaption style="margin-top: 0.5rem; font-size: 0.5em; color: #ccc;">
+							  Figure 1. Schematic of the experimental setup for quantum dot emission measurement
+							</figcaption>
+						  </figure>
+						  
+					  </section>					  
+				</section>
+				<section id="Procedure" data-background-color="black" class="stack has-dark-background">
+					<!-- Title slide -->
+					<section data-auto-animate>
+					  <h2>Procedure</h2>
+					</section>
+				  
+					<!-- Steps slide -->
+					<section data-auto-animate>
+					  <h2>Procedure</h2>
+					  <ol>
+						<li class="fragment fade-in">
+						  Calibrate the rotary sensor
+						</li>
+						<li class="fragment fade-in">
+						  Use \( E = \frac{hc}{\lambda} \) to calculate the energy of emitted light
+						  <div style="border: 1px solid cyan; padding: 0.5rem; margin-top: 0.3rem; text-align: center; background: rgba(255,255,255,0.05); border-radius: 8px;">
+							\( E = \frac{hc}{\lambda} \)
+						  </div>
+						</li>
+						<li class="fragment fade-in">
+						  Make sure only the intended light recived by the detector
+						</li>
+						<li class="fragment fade-in">
+						  Rotate the sensor and record the angle of peak intensity
+						</li>
+						<li class="fragment fade-in">
+						  Calculate the corresponding wavelength
+						</li>
+					  </ol>
+					</section>
+					<section data-auto-animate>
+						<h2>Procedure</h2>
+						<img src="Figures/Procedure.jpg" alt="Procedure">
+						<figcaption style="margin-top: 0.5rem; font-size: 0.5em; color: #ccc;">
+							Figure 2. Expected Spectrum Graph For Green
+						</figcaption>
+					</section>
+				</section>
+				<section id="Data and Result" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<!-- Title slide for Theory -->
+					<section data-auto-animate>
+						<h2>Data and Result</h2>
+					</section>
+					<section data-auto-animate>
+						<h2>Data and Result</h2>
+						<table border="1" style="margin: auto; border-collapse: collapse; text-align: center;">
+							<thead>
+							  <tr>
+								<th>Color</th>
+								<th>Peak Intensity Angle (Degree)</th>
+								<th>Wavelength (nm)</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr class="fragment fade-in">
+								<td>Red</td>
+								<td>22.07</td>
+								<td>626.23</td>
+							  </tr>
+							  <tr class="fragment fade-in">
+								<td>Yellow</td>
+								<td>20.53</td>
+								<td>584.49</td>
+							  </tr>
+							  <tr class="fragment fade-in">
+								<td>Green</td>
+								<td>18.57</td>
+								<td>530.78</td>
+							  </tr>
+							  <tr class="fragment fade-in">
+								<td>Blue</td>
+								<td>16.22</td>
+								<td>465</td>
+							  </tr>
+							</tbody>
+						</table>
+						<figcaption style="margin-top: 0.5rem; font-size: 0.5em; color: #ccc;">
+							Table 2. Peak intensity vs wavelength for diffraction of different color
+						</figcaption>
+						<p class="fragment fade-in">As wavelength decreases, calculated radius also decreases — consistent with quantum confinement</p>
+					</section>
+					<section data-auto-animate>
+						<h2>Data and Result</h2>
+						<p>Using the equations:</p>
+						<p>\(\frac{hc}{\lambda} = E_g + \frac{\hbar^2\pi^2}{2r^2_o}(\frac{1}{m_e} + \frac{1}{m_h})\)</p>
+						<p>and \(E_{emission} = \frac{hc}{\lambda}\)</p>
+						<table border="1" style="margin: auto; border-collapse: collapse; text-align: center;">
+							<thead>
+							  <tr>
+								<th>Color</th>
+								<th>Wavelength(nm)</th>
+								<th>\(E_{emission}(eV)\)</th>
+								<th>\(r_o\)(nm)</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr class="fragment fade-in">
+								<td>Red</td>
+								<td>626.23</td>
+								<td>1.98</td>
+								<td>7.218</td>
+							  </tr>
+							  <tr class="fragment fade-in">
+								<td>Yellow</td>
+								<td>584.49</td>
+								<td>2.12</td>
+								<td>6.536</td>
+							  </tr>
+							  <tr class="fragment fade-in">
+								<td>Green</td>
+								<td>530.78</td>
+								<td>2.34</td>
+								<td>5.77</td>
+							  </tr>
+							  <tr class="fragment fade-in">
+								<td>Blue</td>
+								<td>465</td>
+								<td>2.67</td>
+								<td>5.002</td>
+							  </tr>
+							</tbody>
+						</table>
+						<figcaption style="margin-top: 0.5rem; font-size: 0.5em; color: #ccc;">
+							Table 3. Wavelength, energy emission, quantum dots radius
+						</figcaption>
+					</section>
+					<section data-auto-animate>
+						<h2>Data and Result</h2>
+						<table border="1" style="border-collapse: collapse; text-align: center;">
+							<thead>
+								<th>Color</th>
+								<th>\(\lambda(nm)\)</th>
+								<th>\(E_{emission}(eV)\)</th>
+								<th>\(r_o(nm)\)</th>
+								<th>Percent Error %</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Red</td>
+									<td>626.23</td>
+									<td>1.98</td>
+									<td>7.218</td>
+									<td>0.91</td>
+								</tr>
+								<tr>
+									<td>Yellow</td>
+									<td>584.49</td>
+									<td>2.12</td>
+									<td>6.536</td>
+									<td>2.26</td>
+								</tr>
+								<tr>
+									<td>Green</td>
+									<td>530.78</td>
+									<td>2.34</td>
+									<td>5.77</td>
+									<td>1.07</td>
+								</tr>
+								<tr>
+									<td>Blue</td>
+									<td>465</td>
+									<td>2.67</td>
+									<td>5.002</td>
+									<td>3.06</td>
+								</tr>
+							</tbody>
+						</table>
+						<figcaption style="margin-top: 0.5rem; font-size: 0.5em; color: #ccc;">
+							Table 4. Wavelength, energy emission, quantum dots radius, and percent error
+						</figcaption>
+					</section>
+				</section>
+				<section id="Analysis" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<!-- Title slide for Theory -->
+					<section data-auto-animate>
+						<h2>Analysis</h2>
+					</section>
+					<section data-auto-animate>
+						<h2>Analysis</h2>
+						<img src="Figures/quantum_dot_plots.png" alt="quantum_dot_plots" style="max-height: 290px;">
+						<figcaption style="font-size: 0.3em; color: #ccc;">
+							Figure 3. Wavelength vs Radius and Energy vs Radius graphs
+						  </figcaption>
+						<div data-auto-animate>
+							<p>Satisfy</p>
+							<p>\(\frac{hc}{\lambda} = E_g + \frac{\hbar^2\pi^2}{2r^2_o}(\frac{1}{m_e} + \frac{1}{m_h})\)</p>
+							<p>and \(E_{emission} = \frac{hc}{\lambda}\)</p>
+						</div>
+					</section>
+				</section>
+				<section id="Dicussion" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<!-- Title slide for Theory -->
+					<section data-auto-animate>
+						<h2>Discussion</h2>
+					</section>
+					<section>
+						<h2>Discussion</h2>
+					  
+						<div style="display: flex; justify-content: center; flex-wrap: nowrap; gap: 2rem; margin-top: 2rem;">
+					  
+						  <!-- Table 1 -->
+						  <div style="flex: 1 1 300px; text-align: center;">
+							<table style="border-collapse: collapse; width: 100%; max-width: 200px; border: 1px solid #FFFFFF; color: white; margin-bottom: 0.5rem;">
+							  <thead style="background-color: #222;">
+								<tr>
+								  <th style="padding: 4px; border: 1px solid #FFFFFF;">Color</th>
+								  <th style="padding: 4px; border: 1px solid #FFFFFF;">Wavelength (nm)</th>
+								  <th style="padding: 4px; border: 1px solid #FFFFFF;">Radius (nm)</th>
+								</tr>
+							  </thead>
+							  <tbody>
+								<tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Red</td><td style="padding: 4px; border: 1px solid #FFFFFF;">626.23</td><td style="padding: 4px; border: 1px solid #FFFFFF;">7.218</td></tr>
+								<tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Yellow</td><td style="padding: 4px; border: 1px solid #FFFFFF;">584.49</td><td style="padding: 4px; border: 1px solid #FFFFFF;">6.536</td></tr>
+								<tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Green</td><td style="padding: 4px; border: 1px solid #FFFFFF;">530.78</td><td style="padding: 4px; border: 1px solid #FFFFFF;">5.77</td></tr>
+								<tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Blue</td><td style="padding: 4px; border: 1px solid #FFFFFF;">465</td><td style="padding: 4px; border: 1px solid #FFFFFF;">5.002</td></tr>
+							  </tbody>
+							</table>
+							<figcaption style="font-size: 0.9em; color: #ccc;">
+							  Table 5. Experimental Results
+							</figcaption>
+						  </div>
+					  
+						  <!-- Table 2 -->
+						  <div style="flex: 1 1 300px; text-align: center;">
+							<table style="border-collapse: collapse; width: 100%; max-width: 200px; border: 1px solid #FFFFFF; color: white; margin-bottom: 0.5rem;">
+								<thead style="background-color: #222;">
+								  <tr>
+									<th style="padding: 4px; border: 1px solid #FFFFFF;">Color</th>
+									<th style="padding: 4px; border: 1px solid #FFFFFF;">Wavelength (nm)</th>
+									<th style="padding: 4px; border: 1px solid #FFFFFF;">Radius (nm)</th>
+								  </tr>
+								</thead>
+								<tbody>
+								  <tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Red</td><td style="padding: 4px; border: 1px solid #FFFFFF;">630</td><td style="padding: 4px; border: 1px solid #FFFFFF;">5-6.5</td></tr>
+								  <tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Yellow</td><td style="padding: 4px; border: 1px solid #FFFFFF;">575</td><td style="padding: 4px; border: 1px solid #FFFFFF;">4.5-5</td></tr>
+								  <tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Green</td><td style="padding: 4px; border: 1px solid #FFFFFF;">525</td><td style="padding: 4px; border: 1px solid #FFFFFF;">4.5-5</td></tr>
+								  <tr><td style="padding: 4px; border: 1px solid #FFFFFF;">Blue</td><td style="padding: 4px; border: 1px solid #FFFFFF;">450</td><td style="padding: 8px; border: 1px solid #FFFFFF;">3.5-4</td></tr>
+								</tbody>
+							  </table>
+							  <figcaption style="font-size: 0.9em; color: #ccc;">
+								Table 6. Expected Ranges from Literature
+							  </figcaption>
+						  </div>
+					  
+						</div>
+					</section>					  
+					  
+				</section>
+				<section id="Conclusion" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<!-- Title slide for Theory -->
+					<section data-auto-animate>
+						<h2>Conclusion</h2>
+					</section>
+					<section data-auto-animate>
+						<h2>Conclusion</h2>
+						<img src="Figures/quantum.gif" alt="quantum" class="fragment fade-in">
+						<ul>
+							<li class="fragment fade-in">Examine the Relationship between quantum dots emmited energy and their radius</li>
+							<li class="fragment fade-in">We confirmed the theory behind quantum dots</li>
+							<li class="fragment fade-in">Allow us to control their electronic properties</li>
+						</ul>
+					</section>
+				</section>
+				<section id="Future works" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<section data-auto-animate>
+						<h2>Future Work</h2>
+					</section>
+					<section data-auto-animate>
+						<h2>Future Work</h2>
+						<img src="Figures/Future_Work_Dark.png" alt="">
+						<figcaption style="font-size: 0.5em; color: #ccc;">
+							Figure 4. Example implementing using webcam spectrometer
+						</figcaption>
+						<p>Implement high precision technology for a more accurate result</p>
+					</section>
+				</section>
+				<section id="References" data-background-color="black" data-auto-animate>
+					<h2>References</h2>
+					<ul style="font-size: 0.8em; max-width: 1000px; margin: auto; color: #ccc;" class="fragment fade-in">
+					  <li>
+						Dukovic, G. (n.d.). Particle in a box applied to quantum dots. University of Colorado Boulder. <a href="https://www.colorado.edu/lab/dukovicgroup/sites/default/files/attached-files/particle_in_a_box_website.pdf" target="_blank" style="color: cyan">[PDF]</a>
+					  </li>
+					  <li>
+						Quantum Dots : a True “Particle in a Box” System. (2015, November 20). PhysicsOpenLab. https://physicsopenlab.org/2015/11/20/quantum-dots-a-true-particle-in-a-box-system/
+					  </li>
+					</ul>
+				</section> 
+				<section id="Questions" data-background-color="black" style="top: 0px; display: block;" class="stack future has-dark-background" data-previous-indexv="0" hidden aria-hidden="true">
+					<section data-auto-animate="">
+						<h2>Thank You!</h2>
+						<p class="fragment fade-in">Questions? Feedback?</p>
+						<p class="fragment fade-in">Presented by: Khang Luong</p>
+					  </section>
+					  
+				</section>
 			</div>
 		</div>
 
@@ -25,16 +612,100 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/math/math.js"></script>
 		<script>
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
+				controlsLayout: 'bottom-right',
 
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath ]
 			});
 		</script>
+		<script>
+			const canvas = document.getElementById('background-canvas');
+			const ctx = canvas.getContext('2d');
+		  
+			function resizeCanvas() {
+			  canvas.width = window.innerWidth;
+			  canvas.height = window.innerHeight;
+			}
+		  
+			window.addEventListener('resize', () => {
+			  resizeCanvas();
+			  setupAtoms(); // reposition atoms on resize
+			});
+		  
+			resizeCanvas();
+		  
+			const NUM_ATOMS = 15;
+			let atoms = [];
+		  
+			function setupAtoms() {
+			  atoms = [];
+			  for (let i = 0; i < NUM_ATOMS; i++) {
+				const centerX = Math.random() * canvas.width;
+				const centerY = Math.random() * canvas.height;
+				const numElectrons = 2 + Math.floor(Math.random() * 3); // 2–4 electrons
+		  
+				const electrons = [];
+				for (let j = 0; j < numElectrons; j++) {
+				  electrons.push({
+					radius: 20 + j * 12,
+					angle: Math.random() * Math.PI * 2,
+					speed: 0.01 + Math.random() * Math.random(0, 0.6),
+				  });
+				}
+		  
+				atoms.push({ centerX, centerY, electrons });
+			  }
+			}
+		  
+			setupAtoms();
+		  
+			function draw() {
+			  ctx.clearRect(0, 0, canvas.width, canvas.height);
+		  
+			  for (const atom of atoms) {
+				// Draw nucleus
+				ctx.beginPath();
+				ctx.arc(atom.centerX, atom.centerY, 8, 0, 2 * Math.PI);
+				ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+				ctx.shadowBlur = 10;
+				ctx.shadowColor = 'orange';
+				ctx.fill();
+				ctx.shadowBlur = 0;
+		  
+				// Draw orbits and electrons
+				for (const e of atom.electrons) {
+				  // Orbit ring
+				  ctx.beginPath();
+				  ctx.arc(atom.centerX, atom.centerY, e.radius, 0, 2 * Math.PI);
+				  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+				  ctx.lineWidth = 3;
+				  ctx.stroke();
+		  
+				  // Electron
+				  const x = atom.centerX + e.radius * Math.cos(e.angle);
+				  const y = atom.centerY + e.radius * Math.sin(e.angle);
+		  
+				  ctx.beginPath();
+				  ctx.arc(x, y, 3.5, 0, 2 * Math.PI);
+				  ctx.fillStyle = 'gold';
+				  ctx.fill();
+		  
+				  // Update angle
+				  e.angle += e.speed;
+				}
+			  }
+		  
+			  requestAnimationFrame(draw);
+			}
+		  
+			draw();
+		</script>												  
 	</body>
 </html>
